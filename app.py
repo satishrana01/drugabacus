@@ -18,9 +18,9 @@ def getAllDisease():
     return json.dumps(json_disease)
 
 @app.route('/drugabacus/getdrugs/<diseaseName>',methods=['GET'])
-def getAllDrug(diseasName):
+def getAllDrug(diseaseName):
     
-    drug_name = data_set[(data_set['Disease'] ==diseasName)]
+    drug_name = data_set[(data_set['Disease'] ==diseaseName)]
     data = []
     json_drugname = {}
     
