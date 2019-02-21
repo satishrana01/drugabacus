@@ -1,0 +1,419 @@
+<html>
+
+<head>
+        <meta charset="utf-8" />
+        <title>Shiny Switches with CSS3 &amp; jQuery | Tutorialzine Demo</title>
+        
+        <style>
+			*{
+    margin:0;
+    padding:0;
+}
+
+
+/*-------------------------
+    General Styles
+--------------------------*/
+
+
+html{
+    background:url('../img/bg.jpg') #1f2129;
+    position:relative;
+}
+
+body{
+    font:14px/1.3 'Segoe UI',Arial, sans-serif;
+}
+
+a, a:visited {
+    text-decoration:none;
+    outline:none;
+    color:#54a6de;
+}
+
+a:hover{
+    text-decoration:underline;
+}
+
+section, footer{
+    display: block;
+}
+
+#main{
+    width:500px;
+    height:200px;
+    margin:0 auto;
+    padding-top:00px;
+}
+
+
+/*----------------------------
+    Color Bars
+-----------------------------*/
+
+
+#bars{
+    height: 212px;
+    margin: 0 auto;
+    position: relative;
+    width: 228px;
+}
+
+#frame {
+ position:absolute;
+ background-color: #fff;
+ width: 200px;
+ height: 200px; 
+ overflow: auto;    
+}
+#control{
+    width:90px;
+    height:90px;
+    position:absolute;
+    top:220px;
+    left:0%;
+    margin:0 0 0 0;
+}
+
+#control2{
+    width:90px;
+    height:90px;
+    position:absolute;
+    top:220px;
+    left:100px;
+    margin:0 0 0 0;
+}
+
+.colorBar{
+    width:20px;
+    height:8px;
+    position:absolute;
+    opacity:0;
+    -moz-transition:0.3s;
+    -webkit-transition:0.3s;
+    -o-transition:0.3s;
+    transition:0.3s;
+}
+
+.colorBar.active{
+    opacity:1;
+}
+
+
+/*----------------------------
+    The Footer
+-----------------------------*/
+
+
+footer{
+    background-color: #111111;
+    bottom: 0;
+    box-shadow: 0 -1px 2px #111111;
+    height: 45px;
+    left: 0;
+    position: fixed;
+    width: 100%;
+    z-index: 100000;
+}
+
+footer h2{
+    color: #EEEEEE;
+    font-size: 14px;
+    font-weight: normal;
+    left: 50%;
+    margin-left: -400px;
+    padding: 13px 0 0;
+    position: absolute;
+    width: 540px;
+}
+
+footer h2 i{
+    font-style:normal;
+    color:#888;
+}
+
+footer a.tzine,a.tzine:visited{
+    color: #999999;
+    font-size: 12px;
+    left: 50%;
+    margin: 16px 0 0 110px;
+    position: absolute;
+    text-decoration: none;
+    top: 0;
+}
+
+footer a i{
+    color:#ccc;
+    font-style: normal;
+}
+
+footer a i b{
+    color:#c92020;
+    font-weight: normal;
+}
+
+.knob{
+    width:83px;
+    height:83px;
+    position:relative;
+}
+
+.knob .top{
+    position:absolute;
+    top:0;
+    left:0;
+    width:83px;
+    height:83px;
+    background:url('https://github.com/martinaglv/KnobKnob/raw/master/knobKnob/knob.png') no-repeat;
+    z-index:10;
+    cursor:default !important;
+}
+
+.knob .base{
+    width:83px;
+    height:83px;
+    border-radius:50%;
+    box-shadow:0 5px 0 #4a5056,5px 5px 5px #000;
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:1;
+}
+
+.knob .top:after{
+    content:'';
+    width:10px;
+    height:10px;
+    background-color:#666;
+    position:absolute;
+    top:50%;
+    left:10px;
+    margin-top:-5px;
+    border-radius: 50%;
+    cursor:default !important;
+    box-shadow: 0 0 1px #5a5a5a inset;
+}
+
+.knob [draggable] {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+
+.scroll-wrapper {
+    overflow: hidden !important;
+    padding: 0 !important;
+    position: relative;
+}
+ 
+.scroll-wrapper > .scroll-content {
+    border: none !important;
+    box-sizing: content-box !important;
+    height: auto;
+    left: 0;
+    margin: 0;
+    max-height: none;
+    max-width: none !important;
+    overflow: scroll !important;
+    padding: 0;
+    position: relative !important;
+    top: 0;
+    width: auto !important;
+}
+ 
+.scroll-wrapper > .scroll-content::-webkit-scrollbar {
+    height: 0;
+    width: 0;
+}
+ 
+.scroll-element {
+    display: none;
+}
+.scroll-element, .scroll-element div {
+    box-sizing: content-box;
+}
+ 
+.scroll-element.scroll-x.scroll-scrollx_visible,
+.scroll-element.scroll-y.scroll-scrolly_visible {
+    display: block;
+}
+ 
+.scroll-element .scroll-bar,
+.scroll-element .scroll-arrow {
+    cursor: default;
+}
+ 
+.scroll-textarea {
+    border: 1px solid #cccccc;
+    border-top-color: #999999;
+}
+.scroll-textarea > .scroll-content {
+    overflow: hidden !important;
+}
+.scroll-textarea > .scroll-content > textarea {
+    border: none !important;
+    box-sizing: border-box;
+    height: 100% !important;
+    margin: 0;
+    max-height: none !important;
+    max-width: none !important;
+    overflow: scroll !important;
+    outline: none;
+    padding: 2px;
+    position: relative !important;
+    top: 0;
+    width: 100% !important;
+}
+.scroll-textarea > .scroll-content > textarea::-webkit-scrollbar {
+    height: 0;
+    width: 0;
+}
+ 
+ 
+ 
+ 
+.scrollbar-external_wrapper {
+    height: 450px !important;
+    position: relative;
+    width: auto !important;
+}
+.scrollbar-external {
+    height: 400px;
+    overflow: auto;
+    width: 600px;
+}
+ 
+/******************* EXTERNAL SCROLLBAR *******************/
+ 
+.external-scroll_x,
+.external-scroll_y {
+    border: solid 1px #9999fc;
+    cursor: pointer;
+    display: none;
+    position: absolute;
+}
+ 
+.external-scroll_x.scroll-scrollx_visible {
+    display: block;
+    height: 10px;
+    left: 0;
+    top: 410px;
+    width: 200px;
+}
+ 
+.external-scroll_y.scroll-scrolly_visible {
+    display: block;
+    height: 200px;
+    left: 610px;
+    top: 0;
+    width: 10px;
+}
+ 
+.external-scroll_x div,
+.external-scroll_y div
+{
+    height: 100%;
+    left: 0;
+    top: 0;
+    position: absolute;
+    width: 100%;
+}
+ 
+.external-scroll_x .scroll-bar,
+.external-scroll_y .scroll-bar {
+    background: #9999fc;
+    z-index: 12;
+}
+ 
+.external-scroll_x .scroll-bar {
+    width: 100px;
+}
+.external-scroll_y .scroll-bar {
+    height: 100px;
+}
+		</style>
+				<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+		<script src="assets/knobKnob/transform.js"></script>
+		<script src="assets/knobKnob/knobKnob.jquery.js"></script>
+		
+		<script>
+			$(function() {
+    $('#control').knobKnob({
+        snap: 10,
+        value: 0,
+        turn: function(ratio) {
+            $("#ratio").val(ratio);
+            $("#frame").scrollLeft(($("#frame")[0].scrollWidth - $("#frame").innerWidth()) * ratio);
+			console.log(($("#frame")[0].scrollWidth - $("#frame").innerWidth()) * ratio);
+        }
+    });
+    $('#control2').knobKnob({
+        snap: 10,
+        value: 0,
+        turn: function(ratio) {
+            $("#ratio2").val(ratio);
+            $("#frame").scrollTop(($("#frame")[0].scrollHeight - $("#frame").innerHeight()) * ratio);
+			console.log(($("#frame")[0].scrollHeight - $("#frame").innerHeight()) * ratio);
+        }
+    });
+});
+		</script>
+   </head>
+	
+<body>
+<input id="ratio"><input id="ratio2">
+        <section id="main">
+            <div id="bars">
+                <div id="frame">
+                    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbcccccccccccccccccccccccccccccccccdddddddddddddddddddddddddeeeeeeeeeeeeeeee
+                    '26e000', '2fe300', '37e700', '45ea00', '51ef00',
+        '61f800', '6bfb00', '77ff02', '80ff05', '8cff09',
+        '93ff0b', '9eff09', 'a9ff07', 'c2ff03', 'd7ff07',
+        'f2ff0a', 'fff30a', 'ffdc09', 'ffce0a', 'ffc30a',
+                    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbcccccccccccccccccccccccccccccccccdddddddddddddddddddddddddeeeeeeeeeeeeeeee
+        'ffb509', 'ffa808', 'ff9908', 'ff8607', 'ff7005',
+        'ff5f04', 'ff4f03', 'f83a00', 'ee2b00', 'e52000''26e000', '2fe300', '37e700', '45ea00', '51ef00',
+        '61f800', '6bfb00', '77ff02', '80ff05', '8cff09',
+        '93ff0b', '9eff09', 'a9ff07', 'c2ff03', 'd7ff07',
+        'f2ff0a', 'fff30a', 'ffdc09', 'ffce0a', 'ffc30a',
+                    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbcccccccccccccccccccccccccccccccccdddddddddddddddddddddddddeeeeeeeeeeeeeeee
+        'ffb509', 'ffa808', 'ff9908', 'ff8607', 'ff7005',
+        'ff5f04', 'ff4f03', 'f83a00', 'ee2b00', 'e52000'
+                    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbcccccccccccccccccccccccccccccccccdddddddddddddddddddddddddeeeeeeeeeeeeeeee
+                </div>                    
+                <div id="control">
+                    <!-- The knob markup will go here -->
+                </div>
+                <div id="control2">
+                    
+                </div>
+                                <!-- The colorful dividers will go here -->
+            </div>
+        </section>
+		
+		<div class="scrollbar-external_wrapper">
+    <div class="scrollbar-external">
+        <img src="../includes/tarzan.jpg">
+    </div>
+ 
+    <div class="external-scroll_x">
+        <div class="scroll-element_outer">
+            <div class="scroll-element_size"></div>
+            <div class="scroll-element_track"></div>
+            <div class="scroll-bar"></div>
+        </div>
+    </div>
+ 
+    <div class="external-scroll_y">
+        <div class="scroll-element_outer">
+            <div class="scroll-element_size"></div>
+            <div class="scroll-element_track"></div>
+            <div class="scroll-bar"></div>
+        </div>
+    </div>
+</div>
+		
+<body>
+		
+</html>
