@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8" />
-        <title>Shiny Switches with CSS3 &amp; jQuery | Tutorialzine Demo</title>
+        <title>Drugabacus | value based drug pricing</title>
         
         <!-- CSS stylesheets -->
         <link rel="stylesheet" href="assets/css/styles.css" />
@@ -11,32 +11,269 @@
         <!--[if lt IE 9]>
           <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
+		
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.3/themes/hot-sneaks/jquery-ui.css" />
+	<script src="http://code.jquery.com/jquery-2.1.3.js"></script>
+	<script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+       
+	
+	
+	<style>
+			*{
+    margin:0;
+    padding:0;
+}
+
+
+/*-------------------------
+    General Styles
+--------------------------*/
+
+
+html{
+    background:url('../img/bg.jpg') #6e7dbb;
+    position:relative;
+}
+
+body{
+    font:14px/1.3 'Segoe UI',Arial, sans-serif;
+}
+
+a, a:visited {
+    text-decoration:none;
+    outline:none;
+    color:#54a6de;
+}
+
+a:hover{
+    text-decoration:underline;
+}
+
+section, footer{
+    display: block;
+}
+
+#main{
+    width:500px;
+    height:200px;
+    margin:0 auto;
+    padding-top:00px;
+}
+
+
+/*----------------------------
+    Color Bars
+-----------------------------*/
+
+
+#bars{
+    height: 212px;
+    margin: 0 auto;
+    position: relative;
+    width: 228px;
+}
+
+#control{
+    width:90px;
+    height:90px;
+    position:absolute;
+    top:220px;
+    left:0%;
+    margin:0 0 0 0;
+}
+
+#control2{
+    width:90px;
+    height:90px;
+    position:absolute;
+    top:220px;
+    left:100px;
+    margin:0 0 0 0;
+}
+
+.colorBar{
+    width:20px;
+    height:8px;
+    position:absolute;
+    opacity:0;
+    -moz-transition:0.3s;
+    -webkit-transition:0.3s;
+    -o-transition:0.3s;
+    transition:0.3s;
+}
+
+.colorBar.active{
+    opacity:1;
+}
+
+.knob{
+    width:83px;
+    height:83px;
+    position:relative;
+}
+
+.knob .top{
+    position:absolute;
+    top:0;
+    left:0;
+    width:83px;
+    height:83px;
+    background:url('https://github.com/martinaglv/KnobKnob/raw/master/knobKnob/knob.png') no-repeat;
+    z-index:10;
+    cursor:default !important;
+}
+
+.knob .base{
+    width:83px;
+    height:83px;
+    border-radius:50%;
+    box-shadow:0 5px 0 #4a5056,5px 5px 5px #000;
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:1;
+}
+
+.knob .top:after{
+    content:'';
+    width:10px;
+    height:10px;
+    background-color:#666;
+    position:absolute;
+    top:50%;
+    left:10px;
+    margin-top:-5px;
+    border-radius: 50%;
+    cursor:default !important;
+    box-shadow: 0 0 1px #5a5a5a inset;
+}
+
+.knob [draggable] {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+#rangeSlider2{
+    height: 250px;
+    position: absolute;
+    top: 18px;
+}
+
+</style>
+
+	
     </head>
     
     <body>
+	
+		<!-- <p>
+  <label for="total"> 15 % Tax Range  (in thousand $):</label>
+  <input type="text" id="total" style="border:0; color:#fa4b2a; font-weight:bold;">
+</p> -->
+ 
+<div id="rangeSlider" style="height:250px;left:75px;top:18px;"></div>
+<div id="rangeSlider2" style="height:250px;left:230px;"></div>
+<div id="rangeSlider3" style="height:250px;left:500px;position:absolute;top:18px;left:374px;"></div>
 
 		
 		<section id="main">
-			
-			<div id="bars">
-				<div id="control"></div>
-			</div>
-			
-		</section>
+            
+                    
+                <div id="control1" style="top:300px;position:absolute;left:50px;">
+                    <!-- The knob markup will go here -->
+                </div>
+                <div id="control2" style="top:300px;position:absolute;left:200px;">
+                    
+                </div>
+				
+				<div id="control3" style="top:300px;position:absolute;left:347px;">
+                    
+                </div>
+                                <!-- The colorful dividers will go here -->
+            
+        </section>
 		
-        <footer>
-	        <h2><i>Tutorial:</i> Shiny Switches with CSS3 &amp; jQuery</h2>
-            <a class="tzine" href="http://tutorialzine.com/2011/11/pretty-switches-css3-jquery/">Head on to <i>Tutorial<b>zine</b></i> to download this example</a>
-        </footer>
+  
         
         <!-- JavaScript includes -->
-		<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 		<script src="assets/knobKnob/transform.js"></script>
 		<script src="assets/knobKnob/knobKnob.jquery.js"></script>
 		<script src="assets/js/script.js"></script>
 
-        <!-- BSA AdPacks code. Please ignore and remove.--> 
-        <script src="http://cdn.tutorialzine.com/misc/adPacks/v1.js" async></script>
+        <script>
+		const map = new Map();
+		map.set('color', 'red');
+		console.log(map.get('color'));
+			$(function() {
+    $('#control1').knobKnob({
+        snap: 10,
+        value: 0,
+        turn: function(ratio) {
+			console.log(ratio);
+			adjustSlider('rangeSlider',0,ratio*100);
+        }
+    });
+});
+
+		$(function() {
+    $('#control2').knobKnob({
+        snap: 10,
+        value: 0,
+        turn: function(ratio) {
+			console.log(ratio);
+			adjustSlider('rangeSlider',0,(ratio*100));
+			adjustSlider('rangeSlider2',0,(ratio*100));
+			adjustSlider('rangeSlider3',0,(ratio*100));
+        }
+    });
+});
+
+$(function() {
+    $('#control3').knobKnob({
+        snap: 10,
+        value: 0,
+        turn: function(ratio) {
+			console.log(ratio);
+			adjustSlider('rangeSlider',0,(ratio*100)+10);
+			adjustSlider('rangeSlider2',0,(ratio*100)+20);
+			adjustSlider('rangeSlider3',0,(ratio*100)+40);
+        }
+    });
+});
+
+        $(document).ready(function() {
+         adjustSlider('rangeSlider',10,0);
+		 adjustSlider('rangeSlider2',20,0);
+		 adjustSlider('rangeSlider3',30,0);
+    $( "#total" ).val( "$" + $( "#rangeSlider" ).slider( "values", 0 ) +
+      " - $" + $( "#rangeSlider" ).slider( "values", 1 ) );
+        });
+         
+		 function adjustSlider(id,initValue,currentVal)
+{
+var initialVal = initValue;
+if(map.has(id)){
+
+initialVal = map.get(id);
+}
+else{
+map.set(id,initValue)
+}
+$( "#"+id).slider({
+      orientation: "vertical",
+      range: false,
+      values: [ initialVal,currentVal ],
+      slide: function( event, ui ) {
+        $( "#total" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+      }
+    });
+}
+    </script>
+		
+		
+		
+	
     
     </body>
 </html>
