@@ -30,7 +30,7 @@ def getAllDrug(diseaseName):
     for drugname,price in zip(drug_name['Drug Name'],drug_name['Actual Price']):
         tmp_dict = {}
         tmp_dict['name'] = drugname
-        tmp_dict['cost'] = price
+        tmp_dict['cost'] = round(price)
         data.append(tmp_dict)
     json_drugname["drugname"] = data
   
