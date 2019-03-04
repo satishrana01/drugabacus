@@ -12,7 +12,7 @@ def getAllDisease():
     data = []
     json_disease = {}
     
-    for diseas in data_set['Disease'].unique():
+    for diseas in data_set['Therupetic Class/Disease'].unique():
         tmp_dict = {}
         tmp_dict['name'] = diseas
         data.append(tmp_dict)
@@ -23,11 +23,11 @@ def getAllDisease():
 @app.route('/drugabacus/getdrugs/<diseaseName>',methods=['GET'])
 def getAllDrug(diseaseName):
     
-    drug_name = data_set[(data_set['Disease'] ==diseaseName)]
+    drug_name = data_set[(data_set['Therupetic Class/Disease'] ==diseaseName)]
     data = []
     json_drugname = {}
     
-    for drugname,price in zip(drug_name['Drug'],drug_name['Price($)']):
+    for drugname,price in zip(drug_name['Drug Name'],drug_name['Actual Price']):
         tmp_dict = {}
         tmp_dict['name'] = drugname
         tmp_dict['cost'] = price
@@ -38,7 +38,7 @@ def getAllDrug(diseaseName):
 
 def initialize():
     global data_set
-    data_set = pd.read_excel("drug_prices.xlsx")
+    data_set = pd.read_excel("DummyDrugsDetails.xlsx")
     
 if __name__ == '__main__':
     initialize()
