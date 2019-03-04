@@ -6,7 +6,10 @@
         
         <!-- CSS stylesheets -->
         <link rel="stylesheet" href="assets/css/styles.css" />
+		<link rel="stylesheet" href="assets/css/jquery-ui-slider-pips.css" />
         <link rel="stylesheet" href="assets/knobKnob/knobKnob.css" />
+		<link rel="stylesheet" href="https://code.jquery.com/ui/1.10.4/themes/flick/jquery-ui.css">
+		<link href="assets/css/jm.spinner.css" rel="stylesheet">
         
         <!--[if lt IE 9]>
           <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -15,6 +18,78 @@
 		<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.3/themes/hot-sneaks/jquery-ui.css" />
 	<script src="http://code.jquery.com/jquery-2.1.3.js"></script>
 	<script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+	<script src="assets/js/jquery.knob.min.js"></script>
+	<script src="assets/js/jquery-ui-slider-pips.js"></script>
+	<script src="assets/js/jm.spinner.js"></script>
+
+	
+	<script>
+            $(function($) {
+
+                $(".knob").knob({
+                    change : function (value) {
+                        console.log("change : " + value);
+                    },
+                    release : function (value) {
+                        //console.log(this.$.attr('value'));
+                        console.log("release : " + value);
+						adjustSlider1('flat-slider0',value.cost/10,Math.random()*10+30);
+						adjustSlider1('flat-slider1',value.cost/10,Math.random()*10+20);
+						adjustSlider1('flat-slider2',value.cost/10,Math.random()*10+10);
+						adjustSlider1('flat-slider3',value.cost/10,Math.random()*10+5);
+						adjustSlider1('flat-slider4',value.cost/10,Math.random()*10+18);
+						adjustSlider1('flat-slider5',value.cost/10,Math.random()*10+16);
+						adjustSlider1('flat-slider6',value.cost/10,Math.random()*10);
+						adjustSlider1('flat-slider7',value.cost/10,Math.random()*10);
+						adjustSlider1('flat-slider8',value.cost/10,Math.random()*10);
+						adjustSlider1('flat-slider9',value.cost/10,Math.random()*10);
+                    },
+                    cancel : function () {
+                        console.log("cancel : ", this);
+                    },
+                    /*format : function (value) {
+                        return value + '%';
+                    },*/
+                    draw : function () {
+
+                        // "tron" case
+                        if(this.$.data('skin') == 'tron') {
+
+                            this.cursorExt = 0.3;
+
+                            var a = this.arc(this.cv)  // Arc
+                                , pa                   // Previous arc
+                                , r = 1;
+
+                            this.g.lineWidth = this.lineWidth;
+
+                            if (this.o.displayPrevious) {
+                                pa = this.arc(this.v);
+                                this.g.beginPath();
+                                this.g.strokeStyle = this.pColor;
+                                this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, pa.s, pa.e, pa.d);
+                                this.g.stroke();
+                            }
+
+                            this.g.beginPath();
+                            this.g.strokeStyle = r ? this.o.fgColor : this.fgColor ;
+                            this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, a.s, a.e, a.d);
+                            this.g.stroke();
+
+                            this.g.lineWidth = 2;
+                            this.g.beginPath();
+                            this.g.strokeStyle = this.o.fgColor;
+                            this.g.arc( this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false);
+                            this.g.stroke();
+
+                            return false;
+                        }
+                    }
+                });
+
+ 
+            });
+        </script>
        
 	
 	
@@ -28,7 +103,7 @@ justify-content:center;
 padding-top:20px;
 }
 
-.slider-class div{
+<!-- .slider-class div{
     margin-right: 100px;
     float: left;
 	height:300px;
@@ -36,15 +111,23 @@ padding-top:20px;
 	
 	.slider-class span:nth-child(1){
 	background : red !important;
+	transform: rotateZ(-44deg);
+    border-radius: 50% 50% 0;
 	}
 	
 	#vertical-slider {
     height: 150px;
     margin-left: 30px;
-}
+} -->
 
 .parent-div{
-margin-top : 150px;
+margin-top : 50px;
+display : flex;
+justify-content:center;
+}
+
+.parent-div-slider{
+margin-top : 50px;
 display : flex;
 justify-content:center;
 }
@@ -52,6 +135,38 @@ justify-content:center;
 .parent-div div{
 margin-right : 30px;
 }
+
+.flat-slider.ui-slider.ui-slider-vertical{
+width:0px;
+}
+
+.flat-slider.ui-slider.ui-slider-vertical .ui-slider-handle{
+left:-15px;
+}
+
+.flat-slider.ui-slider.ui-slider-vertical{
+    margin: 0 100px 0 0;
+}
+
+.flat-slider.ui-slider .ui-slider-pip .ui-slider-line{
+
+background: #67c3ec;
+
+}
+
+.parent-div-slider ui-slider-handle:nth-child(1){
+	background : red !important;
+	}
+
+	.flat-slider.ui-slider.ui-slider-vertical .ui-slider-handle:nth-child(1){
+	
+	background : red !important;
+	}
+	
+	.flat-slider.ui-slider.ui-slider-vertical .ui-slider-handle{
+	
+	background : #23d6a2 !important;
+	}
 
 </style>
 
@@ -69,31 +184,61 @@ margin-right : 30px;
 <select id="diseases" onchange="onSelection()">
   <option value="">Select Disease</option>
 </select>
-<div>
+</div>
 
 
-<div class="slider-class">
+<div class="parent-div-slider">
 <!-- <div id="rangeSlider"></div>
 <div id="rangeSlider2"></div>
 <div id="rangeSlider3" ></div>
 <div id="rangeSlider4"></div>
 <div id="rangeSlider5" ></div> -->
+	
 </div>
 
 		
 
-            
-				<div class="parent-div">
-                    
-                <div id="control1">
-                    <!-- The knob markup will go here -->
-                </div>
-                <div id="control2"></div>
 				
-				<div id="control3"> </div>
-                                <!-- The colorful dividers will go here -->
-				<div>
+				
+				<div class = "parent-div">
+ 
+        <div class="demo" >
 
+            <input class="knob" data-min="0" data-displayPrevious=true data-max="5" data-step="1" value="0" data-width="100" data-thickness=.3>
+			
+        </div>
+		
+		<div class="demo" >
+
+            <input class="knob" data-min="0" data-displayPrevious=true data-max="5" data-step="1" value="0" data-width="100" data-thickness=.3>
+			
+        </div>
+		
+		<div class="demo" >
+
+            <input class="knob" data-min="0" data-displayPrevious=true data-max="5" data-step="1" value="0" data-width="100" data-thickness=.3>
+			
+        </div>
+		
+		<div class="demo" >
+
+            <input class="knob" data-min="0" data-displayPrevious=true data-max="5" data-step="1" value="0" data-width="100" data-thickness=.3>
+			
+        </div>
+		
+	</div>
+
+	<div>
+
+	<div>
+                    
+	<!-- <div class="vertical">
+	  
+	  <div id="flat-slider-vertical-1"></div>
+	  <div id="flat-slider-vertical-2"></div>
+	  <div id="flat-slider-vertical-3"></div>
+						
+	</div> -->
 		
   
         
@@ -105,53 +250,7 @@ margin-right : 30px;
         <script>
 		const map = new Map();
 		map.set('color', 'red');
-			$(function() {
-    $('#control1').knobKnob({
-        snap: 10,
-        value: 0,
-        turn: function(ratio) {
-			console.log(ratio);
-			adjustSlider('rangeSlider',0,ratio*100);
-        }
-    });
-});
 
-		$(function() {
-    $('#control2').knobKnob({
-        snap: 10,
-        value: 0,
-        turn: function(ratio) {
-			console.log(ratio);
-			adjustSlider('rangeSlider',0,(ratio*100));
-			adjustSlider('rangeSlider2',0,(ratio*100));
-			adjustSlider('rangeSlider3',0,(ratio*100));
-			adjustSlider('rangeSlider4',0,(ratio*100)+40);
-			adjustSlider('rangeSlider5',0,(ratio*100)+40);
-			
-        }
-    });
-});
-
-$(function() {
-    $('#control3').knobKnob({
-        snap: 10,
-        value: 0,
-        turn: function(ratio) {
-			adjustSlider('rangeSlider',0,(ratio*100)+10);
-			adjustSlider('rangeSlider2',0,(ratio*100)+20);
-			adjustSlider('rangeSlider3',0,(ratio*100)+40);
-			adjustSlider('rangeSlider4',0,(ratio*100)+40);
-			adjustSlider('rangeSlider5',0,(ratio*100)+40);
-			
-			$('.slider-class').find('div').each(function(){
-			
-			adjustSlider($(this).context.id,0,(ratio*100));
-			
-				console.log($(this).context.id);
-		});
-        }
-    });
-});
 
         $(document).ready(function() {
          adjustSlider('rangeSlider',10,0);
@@ -159,8 +258,6 @@ $(function() {
 		 adjustSlider('rangeSlider3',30,0);
 		 adjustSlider('rangeSlider4',20,0);
 		 adjustSlider('rangeSlider5',30,0);
-    $( "#total" ).val( "$" + $( "#rangeSlider" ).slider( "values", 0 ) +
-      " - $" + $( "#rangeSlider" ).slider( "values", 1 ) );
         });
          
 		 function adjustSlider(id,initValue,currentVal)
@@ -191,6 +288,37 @@ $.ajax({url: "http://127.0.0.1:5000/drugabacus/getalldisease", success: function
 });
 	
   }});
+  
+  
+  
+	
+	$("#flat-slider1")
+    .slider({
+        max: 50,
+        min: 0,
+        range: true,
+        values: [15, 35],
+		orientation: "vertical"
+    })
+    .slider("pips", {
+        first: "pip",
+        last: "pip"
+    });
+                    
+$("#flat-slider-vertical-1, #flat-slider-vertical-2, #flat-slider-vertical-3")
+    .slider({
+        max: 25,
+        min: 0,
+        range: "min",
+        value: 20,
+        orientation: "vertical"
+    })
+    .slider("pips", {
+        first: "pip",
+        last: "pip"
+    })
+    .slider("float");
+  
   });
   
   function onSelection() {
@@ -199,14 +327,100 @@ $.ajax({url: "http://127.0.0.1:5000/drugabacus/getalldisease", success: function
   return false;
   }
   $.ajax({url: "http://127.0.0.1:5000/drugabacus/getdrugs/"+diseaseSelected, success: function(result){
-  $( ".slider-class" ).empty();
+  $( ".parent-div-slider" ).empty();
+ 
+	resetKnobs();
 	$.each(JSON.parse(result).drugname, function( index, value ) {
     console.log(index + " "+value.name + " " + value.cost);
-	$( ".slider-class" ).append( "<div id='rangeSlider"+index+"'></div>" );
-	adjustSlider('rangeSlider'+index,value.cost/10,0);
+	$( ".parent-div-slider" ).append( "<div id='flat-slider"+index+"' class=flat-slider></div>" );
+	adjustSlider1('flat-slider'+index,value.cost/10,0);
 });
+ 
   }});
 }
+
+function adjustSlider1(id,initValue,currentVal){
+
+$("#"+id)
+    .slider({
+        max: 50,
+        min: 0,
+        values: [initValue, currentVal],
+		orientation: "vertical",
+		range: false,
+    })
+    .slider("pips", {
+        first: "pip",
+        last: "pip"
+    });
+}
+
+
+function resetKnobs(){
+
+                $(".knob").knob({
+                    change : function (value) {
+                        console.log("change : " + value);
+                    },
+                    release : function (value) {
+                        //console.log(this.$.attr('value'));
+                        console.log("release : " + value);
+						adjustSlider1('flat-slider0',value.cost/10,Math.random()*10+30);
+						adjustSlider1('flat-slider1',value.cost/10,Math.random()*10+20);
+						adjustSlider1('flat-slider2',value.cost/10,Math.random()*10+10);
+						adjustSlider1('flat-slider3',value.cost/10,Math.random()*10+5);
+						adjustSlider1('flat-slider4',value.cost/10,Math.random()*10+18);
+						adjustSlider1('flat-slider5',value.cost/10,Math.random()*10+16);
+						adjustSlider1('flat-slider6',value.cost/10,Math.random()*10);
+						adjustSlider1('flat-slider7',value.cost/10,Math.random()*10);
+						adjustSlider1('flat-slider8',value.cost/10,Math.random()*10);
+						adjustSlider1('flat-slider9',value.cost/10,Math.random()*10);
+                    },
+                    cancel : function () {
+                        console.log("cancel : ", this);
+                    },
+                    /*format : function (value) {
+                        return value + '%';
+                    },*/
+                    draw : function () {
+
+                        // "tron" case
+                        if(this.$.data('skin') == 'tron') {
+
+                            this.cursorExt = 0.3;
+
+                            var a = this.arc(this.cv)  // Arc
+                                , pa                   // Previous arc
+                                , r = 1;
+
+                            this.g.lineWidth = this.lineWidth;
+
+                            if (this.o.displayPrevious) {
+                                pa = this.arc(this.v);
+                                this.g.beginPath();
+                                this.g.strokeStyle = this.pColor;
+                                this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, pa.s, pa.e, pa.d);
+                                this.g.stroke();
+                            }
+
+                            this.g.beginPath();
+                            this.g.strokeStyle = r ? this.o.fgColor : this.fgColor ;
+                            this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, a.s, a.e, a.d);
+                            this.g.stroke();
+
+                            this.g.lineWidth = 2;
+                            this.g.beginPath();
+                            this.g.strokeStyle = this.o.fgColor;
+                            this.g.arc( this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false);
+                            this.g.stroke();
+
+                            return false;
+                        }
+                    }
+                });
+}
+                    
+
   
     </script>
 		
