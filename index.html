@@ -245,7 +245,7 @@ select#diseases {
  
         <div class="demo" >
 
-            <input class="knob" data-min="0" data-displayPrevious=true data-max="5" data-step="1" value="0" data-width="100" data-thickness=.3>
+            <input class="knob" data-min="0" data-displayPrevious=true data-max="5" data-step="1" value="0" data-width="100" data-thickness=.3 data-displayprevious="false">
 			<div class="nobLablePostition">
 			 <label>Side Effects</label>
 			</div>
@@ -298,176 +298,107 @@ select#diseases {
 
         <script>
 		const map = new Map();
-		map.set('color', 'red');
+
+		$(document).ready(function () {
+			adjustSlider('rangeSlider', 10, 0);
+			adjustSlider('rangeSlider2', 20, 0);
+			adjustSlider('rangeSlider3', 30, 0);
+			adjustSlider('rangeSlider4', 20, 0);
+			adjustSlider('rangeSlider5', 30, 0);
+		});
+
+		function adjustSlider(id, initValue, currentVal) {
+			var initialVal = initValue;
+			if (map.has(id)) {
+
+				initialVal = map.get(id);
+			} else {
+				map.set(id, initValue)
+			}
+			$("#" + id).slider({
+				orientation: "vertical",
+				range: false,
+				values: [initialVal, currentVal],
+				slide: function (event, ui) {
+					$("#total").val("$" + ui.values[0] + " - $" + ui.values[1]);
+				}
+			});
+		}
+		$(document).ready(function () {
+			$.ajax({
+				url: "http://127.0.0.1:5000/drugabacus/getalldisease",
+				success: function (result) {
+					$.each(JSON.parse(result).disease, function (index, value) {
+						$('#diseases').append($('<option>', {
+							value: value.name,
+							text: value.name
+						}));
 
 
-        $(document).ready(function() {
-         adjustSlider('rangeSlider',10,0);
-		 adjustSlider('rangeSlider2',20,0);
-		 adjustSlider('rangeSlider3',30,0);
-		 adjustSlider('rangeSlider4',20,0);
-		 adjustSlider('rangeSlider5',30,0);
-        });
-         
-		 function adjustSlider(id,initValue,currentVal)
-{
-var initialVal = initValue;
-if(map.has(id)){
+					});
 
-initialVal = map.get(id);
-}
-else{
-map.set(id,initValue)
-}
-$( "#"+id).slider({
-      orientation: "vertical",
-      range: false,
-      values: [ initialVal,currentVal ],
-      slide: function( event, ui ) {
-        $( "#total" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
-      }
-    });
-}
-$(document).ready(function() {
-$.ajax({url: "http://127.0.0.1:5000/drugabacus/getalldisease", success: function(result){
-	$.each(JSON.parse(result).disease, function( index, value ) {
-  $('#diseases').append($('<option>', {value:value.name, text:value.name}));
-  
-  
-});
-	
-  }});
-  
-  
-  
-	
-	$("#flat-slider1")
-    .slider({
-        max: 50,
-        min: 0,
-        range: true,
-        values: [15, 35],
-		orientation: "vertical"
-    })
-    .slider("pips", {
-        first: "pip",
-        last: "pip"
-    });
-                    
-$("#flat-slider-vertical-1, #flat-slider-vertical-2, #flat-slider-vertical-3")
-    .slider({
-        max: 25,
-        min: 0,
-        range: "min",
-        value: 20,
-        orientation: "vertical"
-    })
-    .slider("pips", {
-        first: "pip",
-        last: "pip"
-    })
-    .slider("float");
-  
-  });
-  
-  function onSelection() {
-  var diseaseSelected = $('#diseases').val();
-  if(diseaseSelected==""){
-  return false;
-  }
-  $.ajax({url: "http://127.0.0.1:5000/drugabacus/getdrugs/"+diseaseSelected, success: function(result){
-  $( ".parent-div-slider" ).empty();
- 
-	resetKnobs();
-	$.each(JSON.parse(result).drugname, function( index, value ) {
-    console.log(index + " "+value.name + " " + value.cost);
-	$( ".parent-div-slider" ).append( "<div class='barLable'><label>"+value.name+"</label></div><div id='flat-slider"+index+"' class=flat-slider></div>" );
-	adjustSlider1('flat-slider'+index,value.cost/10,0);
-});
- 
-  }});
-}
-
-function adjustSlider1(id,initValue,currentVal){
-
-$("#"+id)
-    .slider({
-        max: 50,
-        min: 0,
-        values: [initValue, currentVal],
-		orientation: "vertical",
-		range: false,
-    })
-    .slider("pips", {
-        first: "pip",
-        last: "pip"
-    });
-}
+				}
+			});
 
 
-function resetKnobs(){
+		});
 
-                $(".knob").knob({
-                    change : function (value) {
-                        console.log("change : " + value);
-                    },
-                    release : function (value) {
-                        //console.log(this.$.attr('value'));
-                        console.log("release : " + value);
-						adjustSlider1('flat-slider0',value.cost/10,Math.random()*10+30);
-						adjustSlider1('flat-slider1',value.cost/10,Math.random()*10+20);
-						adjustSlider1('flat-slider2',value.cost/10,Math.random()*10+10);
-						adjustSlider1('flat-slider3',value.cost/10,Math.random()*10+5);
-						adjustSlider1('flat-slider4',value.cost/10,Math.random()*10+18);
-						adjustSlider1('flat-slider5',value.cost/10,Math.random()*10+16);
-						adjustSlider1('flat-slider6',value.cost/10,Math.random()*10);
-						adjustSlider1('flat-slider7',value.cost/10,Math.random()*10);
-						adjustSlider1('flat-slider8',value.cost/10,Math.random()*10);
-						adjustSlider1('flat-slider9',value.cost/10,Math.random()*10);
-                    },
-                    cancel : function () {
-                        console.log("cancel : ", this);
-                    },
-                    /*format : function (value) {
-                        return value + '%';
-                    },*/
-                    draw : function () {
+		function onSelection() {
+			var diseaseSelected = $('#diseases').val();
+			if (diseaseSelected == "") {
+				return false;
+			}
+			$('.parent-div-slider').jmspinner('large');
+			$.ajax({
+				url: "http://127.0.0.1:5000/drugabacus/getdrugs/" + diseaseSelected,
+				success: function (result) {
+					$(".parent-div-slider").empty();
 
-                        // "tron" case
-                        if(this.$.data('skin') == 'tron') {
+					$(".knob").val(0);
+					resetKnobs();
+					$.each(JSON.parse(result).drugname, function (index, value) {
+						console.log(index + " " + value.name + " " + value.cost);
+						$(".parent-div-slider").append("<div class='barLable'><label>" + value.name + "</label></div><div id='flat-slider" + index + "' class=flat-slider></div>");
+						adjustSlider1('flat-slider' + index, value.cost / 10, 0);
+					});
 
-                            this.cursorExt = 0.3;
+				}
+			});
+		}
 
-                            var a = this.arc(this.cv)  // Arc
-                                , pa                   // Previous arc
-                                , r = 1;
+		function adjustSlider1(id, initValue, currentVal) {
+			if (map.has(id)) {
+				initValue = map.get(id);
+			} else {
+				map.set(id, initValue)
+			}
 
-                            this.g.lineWidth = this.lineWidth;
+			$("#" + id)
+				.slider({
+					max: 50,
+					min: 0,
+					values: [initValue, currentVal],
+					orientation: "vertical",
+					range: false,
+				})
+				.slider("pips", {
+					first: "pip",
+					last: "pip"
+				}).slider('float', {
+					handle: true,
+					pips: true,
+					prefix: "$",
+					suffix: ""
+				});
+		}
 
-                            if (this.o.displayPrevious) {
-                                pa = this.arc(this.v);
-                                this.g.beginPath();
-                                this.g.strokeStyle = this.pColor;
-                                this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, pa.s, pa.e, pa.d);
-                                this.g.stroke();
-                            }
 
-                            this.g.beginPath();
-                            this.g.strokeStyle = r ? this.o.fgColor : this.fgColor ;
-                            this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, a.s, a.e, a.d);
-                            this.g.stroke();
+		function resetKnobs() {
 
-                            this.g.lineWidth = 2;
-                            this.g.beginPath();
-                            this.g.strokeStyle = this.o.fgColor;
-                            this.g.arc( this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false);
-                            this.g.stroke();
+			$('.knob').val(0).trigger('change');
 
-                            return false;
-                        }
-                    }
-                });
-}
+				
+		}
                     
 
   
